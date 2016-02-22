@@ -27,7 +27,7 @@
 		</div>
 		<div class="form-group">
 			{!! Form::label('Data nascimento','Data de Nascimento: *') !!}
-			{!! Form::date('dtnascimento',null,['placeholder' => 'Data de Nascimento do Paciente','class'=>'form-control', 'id'=>'data']) !!}
+			{!! Form::text('dtnascimento',null,['placeholder' => 'Data de Nascimento do Paciente','class'=>'form-control', 'id'=>'data']) !!}
 		</div>
 		<div class="form-group">
 			{!! Form::label('Telefone','Telefone: *') !!}

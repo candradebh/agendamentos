@@ -28,7 +28,7 @@ class EventRequest extends Request
     {
         $today = Carbon::now()->format('d/m/Y');
         return [
-            'paciente_id'=>'required|min:10',
+            'paciente_id'=>'required',
             'dtnascimento'=>'required|date_format:d/m/Y|before:'.$today,
             'telefone'=>'required|min:5',
             'medico_id'=>'required'

@@ -20,7 +20,7 @@
             <tr>
                 <td>{{ $paciente->id }}</td>
                 <td>{{ $paciente->nome}}</td>
-                <td>{{ date('d/m/Y', strtotime($paciente->dtnascimento))}}</td>
+                <td>{{ date('d/m/Y', strtotime($paciente->dtnascimento))  }}</td>
                 <td>{{ $paciente->telefone}}</td>
                 <td><a href="{{route('pacientes.edit',[$paciente->id])}}" class="btn btn-default btn-small">Editar</a></td>
             </tr>
