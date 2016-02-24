@@ -40,7 +40,7 @@ class EventsController extends Controller
             })->all(),
         ];
 
-        return view('events.list', $data);
+        return view('events.index', $data);
     }
 
 
@@ -72,39 +72,74 @@ class EventsController extends Controller
         return view('events.edit', compact('data','paciente','medicos','event'));
     }
 
-    public function store(EventRequest $request)
+    public function store(Request $request)
     {
-        $datas = $this->getDatas($request->input('time'));
-
-        $dt['nome'] = $request->input('paciente_id');
-        $dt['dtnascimento'] = $this->change_date_format($request->input('dtnascimento'));
-        $dt['telefone'] = $request->input('telefone');
-
-        //Verifica se o paciente existe
-        $p = $this->pacienteRepository->findWhere([
-            'nome'=>$dt['nome'],
-            'dtnascimento'=>$dt['dtnascimento'],
-            'telefone'=>$dt['telefone']
-        ]);
-
-
-
-        if(sizeof($p)==0) {
-            $this->pacienteRepository->create($dt);
-        }
-        $paciente = $this->pacienteRepository->findByField('nome', $dt['nome'])->first();
-
         //Array de dadospara gravar evento
         $data = array();
-        $data['paciente_id'] = $paciente->id;
+
+
+        if($request->input('paciente_id') ==""){
+            $dt = array();
+            $dt['nome'] = $request->input('auto');
+            $dt['dtnascimento'] = $this->change_date_format($request->input('dtnascimento'));
+            $dt['telefone'] = $request->input('telefone');
+
+            //Verifica se o paciente existe
+            $p = $this->pacienteRepository->findWhere([
+                'nome'=>$dt['nome'],
+                'dtnascimento'=>$dt['dtnascimento'],
+                'telefone'=>$dt['telefone']
+            ]);
+
+            if(sizeof($p)==0) {
+                $this->pacienteRepository->create($dt);
+            }
+            $paciente = $this->pacienteRepository->findByField('nome', $dt['nome'])->first();
+            $data['paciente_id'] = $paciente->id;
+
+
+        }else{
+
+            $data['paciente_id'] = $request->input('paciente_id');
+        }
+
+        if($request->input('medico_id') ==""){
+
+            $m = array();
+            $m['nome'] = $request->input('medico');
+            $m['telefone'] = '00000000';
+
+            $this->medicoRepository->create($m);
+            $medico  = $this->medicoRepository->findByField('nome', $m['nome'])->first();
+            $data['medico_id'] = $medico->id;
+
+
+        }else{
+            $data['medico_id'] = $request->input('medico_id');
+        }
+
+
+        if($request->input('time')!=""){
+
+                $datas = $this->getDatas($request->input('time'));
+
+
+        }else{
+
+            return view('events.index');
+        }
+
+
+
         $data['start_time'] 	= $datas[0];
         $data['end_time']		= $datas[1];
-        $data['medico_id'] = $request->input('medico_id');
 
+
+        //dd($data);
 
         $this->eventRepository->create($data);
 
-        return redirect('/');
+       return redirect()->route('events.index');
 
     }
 

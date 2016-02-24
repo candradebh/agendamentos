@@ -18,7 +18,7 @@
 		@include('errors._check')
 		{!! Form::model($event, ['route'=>['events.update',$event->id]]) !!}
 
-		<input type="hidden" name="paciente_id" value="{{$event->paciente_id}}" />
+		<input type="hidden" name="paciente_id" id="paciente_id"  value="{{$event->paciente_id}}" />
 
 		<div class="form-group">
 			{!! Form::label('Paciente','Nome do Paciente: *') !!}

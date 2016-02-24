@@ -1,6 +1,8 @@
 <?php
 
 
+
+
 Route::get('/', function () {
     $data = [
         'page_title' => 'Início',
@@ -57,3 +59,58 @@ Route::group(['middleware' => ['web']], function () {
 
 });
 
+
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Str;
+
+
+
+Route::any('getdata', function(){
+
+    $term = Str::lower(Input::get('term'));
+
+    $data = DB::table("pacientes")->distinct()->select('id','nome','dtnascimento','telefone')->where('nome', 'LIKE', $term.'%')->groupBy('nome')->take(10)->get();
+    foreach ($data as $v) {
+        $pacientes[] = [ 'value'=>$v->id,'label'=>$v->nome, 'dtnascimento'=>date('d/m/Y',strtotime($v->dtnascimento)),'telefone'=>$v->telefone];
+    }
+   // var_dump($pacientes);
+
+    return Response::json($pacientes);
+
+});
+
+Route::any('getmedico', function(){
+
+    $term = Str::lower(Input::get('term'));
+
+    $data = DB::table("medicos")->distinct()->select('id','nome','telefone')->where('nome', 'LIKE', $term.'%')->groupBy('nome')->take(10)->get();
+    foreach ($data as $v) {
+        $medicos[] = [ 'value'=>$v->id,'label'=>$v->nome, 'telefone'=>$v->telefone];
+    }
+    // var_dump($pacientes);
+
+    return Response::json($medicos);
+
+});
+
+
+
+Route::any('/events/create', function(){
+
+    $keyword = Str::lower(Input::get('auto'));
+    $models = \Oncoclinicas\Models\Paciente::where('nome', '=', $keyword)->orderby('nome')->take(10)->skip(0)->get();
+    $count = count($models);
+
+    return View::make('events.create')->with("contents", $models)->with("counts", $count);
+
+});
+
+Route::any('/events/create', function(){
+
+    $keyword = Str::lower(Input::get('medico'));
+    $models = \Oncoclinicas\Models\Medico::where('nome', '=', $keyword)->orderby('nome')->take(10)->skip(0)->get();
+    $count = count($models);
+
+    return View::make('events.create')->with("contents", $models)->with("counts", $count);
+
+});

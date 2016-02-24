@@ -66,8 +66,11 @@
 
 </footer>
 
+
+
 <script src="{{ url('js') }}/jquery.min.js"></script>
-<script src="{{ url('js') }}/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="{{ url('js') }}/bootstrap.min.js"></script>
+<script src="{{ url('js') }}/jquery-ui.min.js"></script>
 <script src="{{ url('_asset/fullcalendar/lib') }}/moment.min.js"></script>
 <script src="{{ url('/js') }}/jquery.maskedinput.min.js"></script>
 <script type="text/javascript">

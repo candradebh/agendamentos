@@ -1,7 +1,9 @@
 # Sistema de Agendamentos
 
 
-Sistema de Agendamentos de consultas médicas utilizando PHP 7, Laravel Framework 5.2, FullCalendar 2.6, Bootstrap 3.6, Jquery.
+Sistema de Agendamentos de consultas médicas utilizando PHP 7, Laravel Framework 5.2, FullCalendar 2.6, Bootstrap 3.6, Jquery e
+Jquery-ui(autocomplete, datepicker)
+
 
 ## Instalação e Configuração
 
